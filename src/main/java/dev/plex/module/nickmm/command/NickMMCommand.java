@@ -2,6 +2,7 @@ package dev.plex.module.nickmm.command;
 
 import com.earth2me.essentials.I18n;
 import com.earth2me.essentials.User;
+import com.earth2me.essentials.adventure.AdventureFacet;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.plex.command.SimplePlexCommand;
 import dev.plex.command.source.RequiredCommandSource;
@@ -64,11 +65,13 @@ public class NickMMCommand extends SimplePlexCommand
 
         final Component nick = miniMessage.deserialize(input).clickEvent(null).hoverEvent(null);
         final String plain = plainText.serialize(nick);
+        AdventureFacet adventure = module.getEssentials().getAdventureFacet();
 
         if (plain.length() > module.getEssentials().getSettings().getMaxNickLength()
                 && !commandSender.hasPermission("plex.nickmm.ignore_length_limit"))
         {
-            return mmString(I18n.tlLiteral("nickTooLong"));
+            adventure.send(commandSender, adventure.deserializeMiniMessage(I18n.tlLiteral("nickTooLong")));
+            return null;
         }
 
         if (!commandSender.hasPermission("plex.nickmm.ignore_matching"))
@@ -79,7 +82,8 @@ public class NickMMCommand extends SimplePlexCommand
 
                 if (name.equalsIgnoreCase(plain) && !user.getUUID().equals(player.getUniqueId()))
                 {
-                    return mmString(I18n.tlLiteral("nickInUse"));
+                    adventure.send(commandSender, adventure.deserializeMiniMessage(I18n.tlLiteral("nickInUse")));
+                    return null;
                 }
             }
         }
@@ -89,7 +93,8 @@ public class NickMMCommand extends SimplePlexCommand
         essentialsUser.setNickname(legacy);
         essentialsUser.setDisplayNick();
 
-        return mmString(I18n.tlLiteral("nickSet", legacy));
+        adventure.send(commandSender, adventure.deserializeMiniMessage(I18n.tlLiteral("nickSet", legacy)));
+        return null;
     }
 
     private static class NicknameTagResolver implements TagResolver
