@@ -23,6 +23,7 @@ public class ChatStyles
     // Opt in to color tags only, so a future standard tag does not expand what a style can do.
     private static final MiniMessage COLORS = MiniMessage.builder().tags(TagResolver.resolver(
             StandardTags.color(),
+            StandardTags.shadowColor(),
             StandardTags.gradient(),
             StandardTags.rainbow(),
             StandardTags.transition(),
