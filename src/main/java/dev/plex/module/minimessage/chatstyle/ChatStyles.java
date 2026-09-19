@@ -58,12 +58,6 @@ public class ChatStyles
         }
     }
 
-    public Component preview(String style)
-    {
-        return COLORS.deserialize(style + "<text>", Placeholder.component("text", Component.text(style)));
-    }
-
-    // The message is a component placeholder, so message text cannot close or reset the style.
     public Component apply(UUID player, Component message)
     {
         String style = styles.get(player);
@@ -71,6 +65,12 @@ public class ChatStyles
         {
             return message;
         }
+        return style(style, message);
+    }
+
+    // The message is a component placeholder, so message text cannot close or reset the style.
+    public Component style(String style, Component message)
+    {
         return COLORS.deserialize(style + "<message>", Placeholder.component("message", message));
     }
 
