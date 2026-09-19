@@ -1,1 +1,1 @@
-rootProject.name = "Module-NickMiniMessage"
+rootProject.name = "Module-MiniMessageExtensions"

@@ -1,0 +1,5 @@
+nickUnavailable: "<red>EssentialsX is not enabled, so nicknames are unavailable."
+chatStyleSet: "<gray>Your chat style is now: <style>"
+chatStyleCleared: "<gray>Your chat style is now off."
+chatStyleInvalid: "<red>A chat style can have only color tags: colors, <gray>gradient<red>, <gray>rainbow<red>, <gray>transition<red>, and <gray>pride<red>. The maximum length is 255 characters."
+chatStyleFailed: "<red>The server could not save your chat style."

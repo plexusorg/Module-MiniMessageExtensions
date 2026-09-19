@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS {{table:chat_style}} (
+    uuid VARCHAR(36) NOT NULL PRIMARY KEY,
+    style VARCHAR(255) NOT NULL
+);

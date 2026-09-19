@@ -1,15 +1,16 @@
-package dev.plex.module.nickmm.command;
+package dev.plex.module.minimessage.command;
 
+import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.I18n;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.adventure.AdventureFacet;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.plex.command.SimplePlexCommand;
 import dev.plex.command.source.RequiredCommandSource;
-import dev.plex.module.nickmm.NickMiniMessageModule;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -17,12 +18,11 @@ import org.jetbrains.annotations.Nullable;
 
 public class NickMMCommand extends SimplePlexCommand
 {
-    private final NickMiniMessageModule module;
     private final PlainTextComponentSerializer plainText = PlainTextComponentSerializer.plainText();
     private final LegacyComponentSerializer legacyComponent = LegacyComponentSerializer.builder()
             .character('\u00a7').hexColors().useUnusualXRepeatedCharacterHexFormat().build();
 
-    public NickMMCommand(NickMiniMessageModule module)
+    public NickMMCommand()
     {
         super(command("nickmm")
                 .description("Change your nickname using MiniMessage formatting!")
@@ -31,7 +31,6 @@ public class NickMMCommand extends SimplePlexCommand
                 .permission("plex.nickmm")
                 .source(RequiredCommandSource.IN_GAME)
                 .build());
-        this.module = module;
     }
 
     @Override
@@ -50,11 +49,17 @@ public class NickMMCommand extends SimplePlexCommand
             return usage();
         }
 
-        final Component nick = module.api().messages().playerText(input);
-        final String plain = plainText.serialize(nick);
-        AdventureFacet adventure = module.getEssentials().getAdventureFacet();
+        if (!Bukkit.getPluginManager().isPluginEnabled("Essentials"))
+        {
+            return messageComponent("nickUnavailable");
+        }
+        Essentials essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
 
-        if (plain.length() > module.getEssentials().getSettings().getMaxNickLength()
+        final Component nick = api().messages().playerText(input);
+        final String plain = plainText.serialize(nick);
+        AdventureFacet adventure = essentials.getAdventureFacet();
+
+        if (plain.length() > essentials.getSettings().getMaxNickLength()
                 && !commandSender.hasPermission("plex.nickmm.ignore_length_limit"))
         {
             adventure.send(commandSender, adventure.deserializeMiniMessage(I18n.tlLiteral("nickTooLong")));
@@ -63,7 +68,7 @@ public class NickMMCommand extends SimplePlexCommand
 
         if (!commandSender.hasPermission("plex.nickmm.ignore_matching"))
         {
-            for (final User user : module.getEssentials().getOnlineUsers())
+            for (final User user : essentials.getOnlineUsers())
             {
                 final String name = user.getNickname() != null ? plainText.serialize(legacyComponent.deserialize(user.getNickname())) : user.getName();
 
@@ -76,7 +81,7 @@ public class NickMMCommand extends SimplePlexCommand
         }
 
         final String legacy = legacyComponent.serialize(nick);
-        User essentialsUser = module.getEssentials().getUser(player);
+        User essentialsUser = essentials.getUser(player);
         essentialsUser.setNickname(legacy);
         essentialsUser.setDisplayNick();
 

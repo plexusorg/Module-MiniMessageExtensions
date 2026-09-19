@@ -30,7 +30,7 @@ dependencies {
 
 group = "dev.plex"
 version = "2.0-SNAPSHOT"
-description = "Module-NickMiniMessage"
+description = "Module-MiniMessageExtensions"
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(25))
@@ -50,7 +50,7 @@ publishing {
 }
 
 tasks.getByName<Jar>("jar") {
-    archiveBaseName.set("Module-NickMiniMessage")
+    archiveBaseName.set("Module-MiniMessageExtensions")
     archiveVersion.set("")
 }
 
