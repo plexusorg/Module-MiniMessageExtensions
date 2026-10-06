@@ -1,5 +1,5 @@
 name: Module-MiniMessageExtensions
 main: dev.plex.module.minimessage.MiniMessageExtensionsModule
 description: Module for Plex that adds MiniMessage nicknames and chat styles
-version: 2.0
+version: 2.0.1-SNAPSHOT
 apiCompatibility: 1
