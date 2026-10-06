@@ -21,8 +21,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.projectlombok:lombok:1.18.46")
-    annotationProcessor("org.projectlombok:lombok:1.18.46")
+    compileOnly("org.projectlombok:lombok:1.18.48")
+    annotationProcessor("org.projectlombok:lombok:1.18.48")
     compileOnly("io.papermc.paper:paper-api:26.2.build.+")
     compileOnly("dev.plex:api:2.0-SNAPSHOT")
     compileOnly("net.essentialsx:EssentialsX:2.22.1-SNAPSHOT")
@@ -37,7 +37,7 @@ java {
 }
 
 checkstyle {
-    toolVersion = "14.1.0"
+    toolVersion = "14.3.0"
     configFile = rootProject.file("config/checkstyle/checkstyle.xml")
 }
 
